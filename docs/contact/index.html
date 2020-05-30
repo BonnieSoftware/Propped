@@ -783,18 +783,6 @@
                 $(".header").removeAttr("style");
             }
 
-            // Fixes issue where hero doesn't resize to cover the full width of the page in IE.
-            if (windowWidth > maxTabletWidth) {
-                var coverImgHeight = $(".cover img").height();
-                if (coverImgHeight > 284) {
-                    coverImgHeight = 284;
-                }
-                $(".tablet .cover .hero").attr("style", "_height:" + coverImgHeight + "px");
-            }
-            else {
-                $(".cover .hero").removeAttr("style");
-            }
-
             // Fixes issue where container max width is not supported for IE causing containers to expand too wide.
             if (windowWidth >= 1280) {
                 $(".tablet .container").width(1280 - 50);
