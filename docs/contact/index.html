@@ -1,0 +1,842 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Propped - Find the property you are looking for</title>
+
+    <style type="text/css">
+        @import url('http://fonts.googleapis.com/css?family=Exo+2:300,400,400i,500,600,700,900');
+
+        * {
+            transition: 0.4s;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: none;
+            overflow-x: hidden; /* For IE6 to hide pointless scrollbar. */
+        }
+
+        body {
+            font-size: 16px;
+            color: #888;
+            font-family: 'Exo 2', sans-serif;
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+            a:hover, a:focus {
+                text-decoration: none;
+                outline: none;
+            }
+
+            a img {
+                border: none;
+            }
+
+        .header {
+            text-align: center;
+        }
+
+        .tablet .header {
+            text-align: left;
+            max-width: 1280px;
+            margin: 0 auto 0 50px;
+            padding: 0;
+        }
+
+        .desktop .header {
+            margin: 0 auto;
+        }
+
+        .header .quick-actions {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .tablet .header .quick-actions {
+            float: left;
+            text-align: right;
+            width: 100%;
+            position: relative;
+            right: 50px;
+        }
+
+        .header .quick-actions .menu-item {
+            display: block;
+            float: left;
+            overflow: hidden;
+            margin: 0 0 15px 0;
+            padding: 0;
+            list-style: none;
+            width: 50%;
+        }
+
+
+        .tablet .header .quick-actions .menu-item {
+            display: inline-block;
+            _display: inline;
+            float: none;
+            width: auto;
+        }
+
+        .header .quick-actions .report-a-repair {
+            background: #589AD9;
+        }
+
+        .header .quick-actions .sign-in {
+            background: #F9AC0C;
+            margin-right: -3px; /* For IE, stops flicker when resizing browser window. */
+        }
+
+            .header .quick-actions .sign-in .user-icon, .header .quick-actions .report-a-repair .repair-icon {
+                position: relative;
+                top: 1px;
+                left: -3px;
+                height: 12px;
+            }
+
+        .header .quick-actions .action {
+            display: block;
+            _display: inline-block;
+            color: #fff;
+            padding: 7px 0;
+            text-decoration: none;
+            width: 100%; /* IE6 */
+        }
+
+        .tablet .header .quick-actions .action {
+            padding: 7px 20px;
+            width: auto;
+        }
+
+        .header .quick-actions .action:hover {
+            background: #048677;
+        }
+
+        .header .open-menu, .header .close-menu {
+            margin: 0 15px;
+            float: left;
+            width: 17px;
+            cursor: pointer;
+        }
+
+        .accessibility {
+            width: 100% !important;
+            visibility: hidden;
+        }
+
+        .features .wrapper {
+            padding: 5px 0 !important;
+            clear: both;
+        }
+
+        .features .column.first {
+            width: 25%;
+            padding: 50px 25px 50px 0;
+        }
+
+        .features .column.last {
+            width: 70%;
+            padding: 50px 0 50px 25px;
+        }
+
+        .features .first .column {
+            min-height: 200px;
+        }
+
+        .features .last .column {
+            min-height: 260px;
+        }
+
+        .features h3 {
+            color: #333;
+            text-align: center;
+            font-size: 30px;
+            margin: 50px 0 25px 0;
+        }
+
+        .features h4 {
+            color: #333;
+            font-size: 20px;
+            font-weight: normal;
+        }
+
+        .features ul {
+            padding-left: 16px;
+        }
+
+        .tablet .header .open-menu, .tablet .header .close-menu, .menu-open .header .open-menu, .menu-closed .header .close-menu {
+            display: none;
+        }
+
+        .header .branding {
+            margin: 0 15px 15px 0;
+            padding: 0;
+        }
+
+        .tablet .header .branding {
+            clear: both;
+            float: left;
+        }
+
+        .header .branding .logo {
+            width: 220px;
+            margin-left: -28px;
+        }
+
+        .tablet .header .branding .logo {
+            margin: 15px 25px 15px 0px;
+        }
+
+        .header .menu {
+            clear: left;
+            text-align: left;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu-closed .header .menu {
+            display: none;
+        }
+
+        .tablet .header .menu {
+            display: block;
+            float: right;
+            clear: none;
+            margin-bottom: 60px;
+        }
+
+        .header .menu, .header .menu .menu-item {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            border: 1px solid #fff; /* For IE6 to fix height of elements so they aren't taller than they should be. */
+        }
+
+        .tablet .header .menu {
+            padding: 40px 50px 0 0;
+        }
+
+            .tablet .header .menu .menu-item {
+                display: inline;
+                padding: 0 0 0 50px;
+            }
+
+        .header .menu .menu-item .action {
+            text-decoration: none;
+            color: #3a2f2f;
+            display: block;
+            padding: 15px 0;
+            margin: 0 15px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .tablet .header .menu .menu-item .action {
+            text-decoration: none;
+            color: #3a2f2f;
+            display: inline;
+            padding: 0;
+            margin: 0;
+            border-bottom: none;
+        }
+
+        .header .menu .menu-item .action:hover {
+            color: #F9AC0C;
+        }
+
+        .header .menu .menu-item .action.last {
+            border-bottom: none;
+        }
+
+        .cover {
+            clear: both;
+            background: #589AD9;
+        }
+
+        .tablet .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 50px;
+        }
+
+        .cover form {
+            padding: 0;
+            margin: 0;
+        }
+
+        .tablet .cover {
+            background: transparent;
+        }
+
+            .tablet .cover .hero {
+                max-height: 284px;
+                overflow: hidden;
+                position: relative;
+            }
+
+        .cover .hero img {
+            width: 100%;
+        }
+
+        .tablet .cover .hero img {
+            min-height: 100%;
+            min-width: 100%;
+            width: 100%;
+            max-width: 100%;
+            max-height: none;
+            display: block;
+        }
+
+        .tablet .container .wrapper {
+            margin: 0 auto;
+            padding: 25px;
+        }
+
+        .tablet .cover .container .wrapper {
+            background: transparent;
+            width: 40%;
+            margin: -500px 0 0 0;
+            position: relative;
+            padding: 25px 0;
+            text-align: left;
+            color: #333;
+            text-shadow: 0 0 4px rgba(255, 255, 255, 1);
+        }
+
+        .cover h2 {
+            padding: 15px 0 5px 0;
+            margin: 0;
+        }
+
+        .cover p, .cover label, .cover input {
+            display: none;
+        }
+
+        .tablet .cover p {
+            display: block;
+            padding: 0 0 25px 0;
+            margin: 0;
+        }
+
+        .cover, .cover form {
+            text-align: center;
+            color: #fff;
+        }
+
+            .cover form {
+                padding-bottom: 15px;
+            }
+
+            .cover .action {
+                background: #F9AC0C;
+                color: #fff;
+                border: 0;
+                display: block;
+                padding: 7px 20px;
+                _padding: 3px 20px;
+                margin: 0 auto;
+                font-size: 16px;
+                font-family: 'Exo 2', sans-serif;
+                cursor: pointer;
+            }
+
+        .tablet .cover .action {
+            margin: 0 0 0 -4px;
+        }
+
+        .cover .action:hover {
+            background: #048677;
+            color: #fff;
+        }
+
+        .tablet .cover input {
+            display: inline;
+            border: 0;
+        }
+
+        .tablet .cover #location {
+            padding: 7px 20px;
+            font-size: 16px;
+            font-family: 'Exo 2', sans-serif;
+            width: 50%;
+        }
+
+        .banner {
+            color: #fff;
+        }
+
+        .tablet .banner {
+            margin: 50px 0;
+            text-align: center;
+        }
+
+        .banner .wrapper {
+            clear: both;
+            background: #4c4c4c;
+            border: 10px solid #767676;
+            padding: 25px 50px;
+        }
+
+        .tablet .banner h3 {
+            font-size: 40px;
+            text-transform: uppercase;
+        }
+
+        .tablet .banner p {
+            font-size: 24px;
+        }
+
+        .banner .action {
+            color: #fff;
+            width: 100px;
+            height: 40px;
+            line-height: 40px;
+            text-decoration: none;
+            background: #F9AC0C;
+            display: inline-block;
+            text-align: center;
+            margin: 0 12px 0 0;
+        }
+
+        .tablet .banner .action {
+            font-size: 24px;
+            width: 200px;
+            height: 60px;
+            line-height: 60px;
+            margin: 25px 12px 40px 12px;
+        }
+
+        .banner .last {
+            color: #4c4c4c;
+            background: #fff;
+        }
+
+        .banner .action:hover {
+            background: #048677;
+            color: #fff;
+        }
+
+        .footer {
+            background: #589AD9;
+            color: #fff;
+        }
+
+        .tablet .footer .container .wrapper {
+            padding: 0;
+        }
+
+        .column {
+            float: left;
+            width: 33%;
+            overflow: hidden;
+        }
+
+        .tablet .features .column .wrapper {
+            padding: 0 25px !important;
+        }
+
+        .tablet .features .column:first-child .wrapper {
+            padding-left: 0 !important;
+        }
+
+        .tablet .features .column:last-child .wrapper {
+            padding-right: 0 !important;
+        }
+
+        .footer .column {
+            width: 25%;
+        }
+
+            .footer .column h4, .footer .column p, .footer .column ul {
+                margin-right: 25px;
+            }
+
+            .footer .column.first p {
+                margin: 15px 0 30px 0;
+            }
+
+        .column.last h4, .column.last p, .column.last ul {
+            margin-right: 0;
+        }
+
+        .footer {
+            clear: both;
+        }
+
+            .footer h4 {
+                padding-top: 75px;
+                border-bottom: 1px solid #fff;
+                color: #fff;
+                font-size: 20px;
+                font-weight: 600;
+                margin-bottom: 25px;
+                padding-bottom: 25px;
+                position: relative;
+                text-transform: uppercase;
+            }
+
+                .footer h4::after {
+                    background: #F9AC0C;
+                }
+
+                .footer h4::after {
+                    bottom: -2px;
+                    content: "";
+                    height: 3px;
+                    left: 0;
+                    position: absolute;
+                    width: 80px;
+                }
+
+            .footer ul {
+                padding: 0;
+            }
+
+            .footer li {
+                margin: 15px 0 0 0;
+            }
+
+            .footer p {
+                font-size: 15px;
+                padding-right: 15px;
+            }
+
+            .footer a {
+                color: #fff;
+            }
+
+                .footer a:hover {
+                    color: #F9AC0C;
+                }
+
+            .footer form {
+                clear: left;
+                padding: 35px 0;
+            }
+
+            .footer label {
+                font-size: 30px;
+                font-weight: 500;
+                padding-bottom: 30px;
+                text-transform: uppercase;
+                color: #fff;
+            }
+
+                .footer label span {
+                    font-size: 20px;
+                    display: block;
+                }
+
+            .footer #email {
+                color: #ccc;
+                border: 1px solid #fff;
+                background: transparent;
+                font-size: 14px;
+                height: 48px;
+                padding-left: 20px;
+                width: 450px;
+                font-family: 'Exo 2', sans-serif;
+            }
+
+
+                .footer #email::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+                    color: #ccc;
+                    opacity: 1; /* Firefox */
+                }
+
+                .footer #email:-ms-input-placeholder { /* Internet Explorer 10-11 */
+                    color: #ccc;
+                }
+
+                .footer #email::-ms-input-placeholder { /* Microsoft Edge */
+                    color: #ccc;
+                }
+
+            .footer .action {
+                height: 48px;
+                margin-left: -3px;
+                padding: 0 50px;
+                text-transform: uppercase;
+                font-size: 14px;
+                position: relative;
+                top: -1px;
+                background: #F9AC0C;
+                font-family: 'Exo 2', sans-serif;
+            }
+
+            .footer .copyright {
+                clear: left;
+                margin: 0;
+                text-align: center;
+                padding: 25px 0;
+                border-top: 1px solid #ccc;
+            }
+
+        .form-control {
+            margin-top: 5px;
+            display: block;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        }
+
+            .form-control:focus {
+                border-color: #66afe9;
+                outline: 0;
+                box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
+            }
+
+        form br {
+            display: block;
+        }
+
+        textarea {
+            width: 420px;
+            height: 120px;
+        }
+
+        .btn {
+            color: #fff;
+            background-color: #589AD9;
+            border-color: #122b40;
+            padding: 6px 12px;
+            display: inline-block;
+            margin-bottom: 0;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.42857143;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            touch-action: manipulation;
+            cursor: pointer;
+            user-select: none;
+            background-image: none;
+            border: 1px solid transparent;
+        }
+
+            .btn:hover {
+                background-color: #204d74;
+                border-color: #122b40;
+            }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1 class="branding"><a href="/"><img class="logo" src="/propped.jpg" alt="Propped - Find the property you are looking for"></a></h1>
+
+        <ul class="menu">
+            <li class="menu-item"><a class="action" href="/">Home</a></li>
+            <li class="menu-item">
+                <a class="action" href="/downloads/setup.msi">Download</a>
+                <!-- ensure there are no spaces between the elements in the .quick-actions for older versions of IE -->
+                <ul class="quick-actions"><li class="accessibility menu-item"><a class="action" href="/">Property finder</a></li></ul>
+            </li>
+            <li class="menu-item"><a class="action" href="/support/">Support</a></li>
+            <li class="menu-item"><a class="action" href="/about/">About</a></li>
+            <li class="menu-item"><a class="action last" href="/contact/">Contact</a></li>
+        </ul>
+    </div>
+
+    <div class="cover">
+        <div class="hero"><img src="/images/banners/about.jpg" alt=""></div>
+        <div class="container">
+            <div class="wrapper">
+                <h2>Contact us</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="container">
+            <div class="column first">
+                <div class="wrapper">
+                    <p><strong>Phone</strong> 01394 809785</p>
+                    <p><strong>Email</strong> info@propped.co.uk</p>
+                    <p><strong>Website</strong> www.propped.co.uk</p>
+                </div>
+            </div>
+
+            <div class="column last">
+                <div class="wrapper">
+                    <p>Simply fill in the following form and we'll contact you back.</p>
+                    <form method="post">
+                        <p><label>Name<br /><input class="form-control" type="text" name="name" /></label></p>
+                        <p><label>Email<br /><input class="form-control" type="text" name="email" /></label></p>
+                        <p><label>Phone number<br /><input class="form-control" type="text" name="phone" /></label></p>
+                        <p><label>Message<br /><textarea class="form-control" name="message"></textarea></label></p>
+                        <input class="btn" type="submit" name="action" value="Send" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <div class="wrapper">
+                <div class="column first">
+                    <h4>Who are we</h4>
+                    <p>Propped are the only property finder software providers in the UK. Helping people find their dream home and enabling investors to build their property portfolio.</p>
+                </div>
+
+                <div class="column">
+                    <h4>Get in touch</h4>
+                    <p>Phone: 01394 809785</p>
+                    <p>Email:  info@propped.co.uk</p>
+                    <p>Website: www.propped.co.uk</p>
+                </div>
+
+                <div class="column">
+                    <h4>Useful links</h4>
+                    <ul class="useful-links">
+                        <li><a href="https://www.rightmove.co.uk/">Rightmove</a></li>
+                        <li><a href="https://www.zoopla.co.uk/">Zoopla</a></li>
+                        <li><a href="https://www.onthemarket.com/">OnTheMarket</a></li>
+                    </ul>
+                </div>
+
+                <div class="column last">
+                    <h4>Help and support</h4>
+                    <ul class="useful-links">
+                        <li><a href="/support/report-an-issue/">Report an issue</a></li>
+                        <li><a href="/support/user-manual/">User manual</a></li>
+                        <li><a href="/about/privacy-policy/">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <p class="copyright">Copyright 2020 - Propped. All Rights Reserved.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="http://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+
+        //TODO: Check these sizes work well...
+        var maxMobileWidth = 960;
+        var maxTabletWidth = 1340;
+
+        var resizeSuspended = false;
+
+        function suspendResponsiveness() {
+            resizeSuspended = true;
+        }
+
+        function resumeResponsiveness() {
+            resizeSuspended = false;
+        }
+
+        function applyResponsiveness() {
+            if (resizeSuspended) return;
+
+            var windowWidth = $(window).width();
+
+            if (windowWidth > maxMobileWidth) {
+                $("body").addClass("tablet");
+            }
+            else {
+                $("body").removeClass("tablet");
+            }
+
+            if (windowWidth > maxTabletWidth) {
+                $("body").addClass("desktop");
+            }
+            else {
+                $("body").removeClass("desktop");
+            }
+
+            //// Ensures mobile optimsied hero image loads.
+            //if (windowWidth > maxMobileWidth) {
+            //	$(".cover .hero img").attr("src","/images/banners/happy-large-family.jpg");
+            //}
+            //else {
+            //	$(".cover .hero img").attr("src","/images/banners/happy-small-family.jpg");
+            //}
+
+            // Fixes issues with IE where max-width can't be applied.
+            if (windowWidth >= maxMobileWidth + 50) {
+                if (windowWidth >= 1280) {
+                    $(".tablet .header").width(1280 - 50);
+                }
+                else {
+                    $(".tablet .header").width(windowWidth - 50);
+                }
+            }
+            else {
+                $(".header").removeAttr("style");
+            }
+
+            // Fixes issue where hero doesn't resize to cover the full width of the page in IE.
+            if (windowWidth > maxTabletWidth) {
+                var coverImgHeight = $(".cover img").height();
+                if (coverImgHeight > 284) {
+                    coverImgHeight = 284;
+                }
+                $(".tablet .cover .hero").attr("style", "_height:" + coverImgHeight + "px");
+            }
+            else {
+                $(".cover .hero").removeAttr("style");
+            }
+
+            // Fixes issue where container max width is not supported for IE causing containers to expand too wide.
+            if (windowWidth >= 1280) {
+                $(".tablet .container").width(1280 - 50);
+            }
+            else {
+                $(".container").removeAttr("style");
+            }
+        }
+
+        (function ($) {
+            $('<img class="open-menu" src="/images/hamburger-icon.gif" alt="Open menu">').prependTo(".header");
+            $('<img class="close-menu" src="/images/close-icon.gif" alt="Close menu">').prependTo(".header");
+            $(".quick-actions").prependTo(".header");
+            $("body").addClass("menu-closed");
+
+            applyResponsiveness();
+
+            $(window).resize(function () {
+                clearTimeout(window.resizedFinished);
+                window.resizedFinished = setTimeout(function () {
+                    applyResponsiveness();
+                }, 1);
+            });
+
+            $(".open-menu").click(function () {
+                var body = $("body");
+                suspendResponsiveness();
+                body.removeClass("menu-closed");
+                body.addClass("menu-open");
+                resumeResponsiveness();
+            });
+
+            $(".close-menu").click(function () {
+                var body = $("body");
+                suspendResponsiveness();
+                body.removeClass("menu-open");
+                body.addClass("menu-closed");
+                resumeResponsiveness();
+            });
+        })(jQuery);
+    </script>
+
+</body>
+
+</html>
