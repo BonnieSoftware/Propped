@@ -726,14 +726,6 @@
                 $("body").removeClass("desktop");
             }
 
-            //// Ensures mobile optimsied hero image loads.
-            //if (windowWidth > maxMobileWidth) {
-            //	$(".cover .hero img").attr("src","/images/banners/happy-large-family.jpg");
-            //}
-            //else {
-            //	$(".cover .hero img").attr("src","/images/banners/happy-small-family.jpg");
-            //}
-
             // Fixes issues with IE where max-width can't be applied.
             if (windowWidth >= maxMobileWidth + 50) {
                 if (windowWidth >= 1280) {
@@ -745,18 +737,6 @@
             }
             else {
                 $(".header").removeAttr("style");
-            }
-
-            // Fixes issue where hero doesn't resize to cover the full width of the page in IE.
-            if (windowWidth > maxTabletWidth) {
-                var coverImgHeight = $(".cover img").height();
-                if (coverImgHeight > 284) {
-                    coverImgHeight = 284;
-                }
-                $(".tablet .cover .hero").attr("style", "_height:" + coverImgHeight + "px");
-            }
-            else {
-                $(".cover .hero").removeAttr("style");
             }
 
             // Fixes issue where container max width is not supported for IE causing containers to expand too wide.
